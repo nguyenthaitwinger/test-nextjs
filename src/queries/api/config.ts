@@ -4,7 +4,7 @@ import { API_TIMEOUT, API_ENDPOINT, BASE_URL } from "../../config/api";
 import logger from "../../libs/logger";
 
 const client = axios.create({
-  baseURL: API_ENDPOINT,
+  baseURL: `https://api.alpha.vspace.global/api`,
   timeout: API_TIMEOUT,
   timeoutErrorMessage: "🚧🚧🚧 Server connection time out !",
   headers: {
