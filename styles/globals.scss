@@ -1,0 +1,28 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@100;300;400;500;700&display=swap");
+
+:root {
+  //default layout
+  --light-back: #2f2f2f;
+  --black: #000;
+  --near-dark-grey: #e1e1e1;
+  --navy-primary: #1b3b6e;
+  --text: #6f6f6f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  border: none;
+  outline: none;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: ibm-plex-sans, sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+}

@@ -1,14 +1,24 @@
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { QueryClientProvider, QueryClient } from "react-query";
-import logger from "../src/libs/logger";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import logger from "../src/libs/logger";
+import "antd/dist/antd.css";
+
+import "../styles/globals.scss";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+
+  // useEffect(() => {
+  //   typeof document !== undefined
+  //     ? require("bootstrap/dist/css/bootstrap.css")
+  //     : null;
+  // }, []);
+
   useEffect(() => {
     const handleStart = (url: string) => {
       logger.debug("🚀🚀🚀 ~ file: _app.tsx ~ handleStart ~ url", url);
