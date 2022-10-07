@@ -35,7 +35,20 @@ const Filter: React.FC<Props> = ({ setSort, setFilter, filters }) => {
         {listFilter.map((filter, index) => {
           return (
             <div key={index} className={cx("filter-item")}>
-              <select defaultValue="" className={cx("filter-select")}>
+              <select
+                name={filter.name}
+                value={filters[filter.name]}
+                defaultValue=""
+                className={cx("filter-select")}
+                onChange={(event) => {
+                  setFilter((preState: object) => {
+                    return {
+                      ...preState,
+                      [event.target.name]: event.target.value,
+                    };
+                  });
+                }}
+              >
                 <option value="" hidden>
                   {filter.name}
                 </option>
@@ -65,9 +78,9 @@ const Filter: React.FC<Props> = ({ setSort, setFilter, filters }) => {
               defaultValue=""
               id="select"
               className={cx("filter-select")}
-              // onChange={(event) => {
-              //   setSort(event.target.value);
-              // }}
+              onChange={(event) => {
+                setSort(event.target.value);
+              }}
             >
               <option value="" hidden>
                 Sort by

@@ -5,7 +5,7 @@ export interface SignInPropType {
 
 export interface params {
   s?: string;
-  page: number;
+  page?: number;
   orderBy?: string;
   category?: string;
   technologies?: string;

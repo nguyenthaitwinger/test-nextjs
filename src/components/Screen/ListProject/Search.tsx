@@ -6,12 +6,30 @@ import Image from "next/image";
 
 const cx = classNames.bind(styles);
 
-export default function Search(props: any) {
+interface Props {
+  setS: (value: string) => void;
+}
+
+export default function Search(props: Props) {
+  const [value, setValue] = useState("");
+  const { setS } = props;
+
+  const handleSearch = (event: any) => {
+    event.preventDefault();
+    setS(value);
+  };
+
   return (
     <div className={cx("input-wrap")}>
       <div className={cx("input-group")}>
-        <form>
-          <input type="text" placeholder="Search your projects" />
+        <form onSubmit={handleSearch}>
+          <input
+            onChange={(event) => {
+              setValue(event.target.value);
+            }}
+            type="text"
+            placeholder="Search your projects"
+          />
         </form>
         <Image
           src="/images/Search.png" // Route of the image file

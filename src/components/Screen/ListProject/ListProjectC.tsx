@@ -1,21 +1,28 @@
-import { Pagination } from "antd";
 import classNames from "classnames/bind";
-import React from "react";
-import styles from "../../../../styles/Pages/ListProject.module.scss";
 import moment from "moment";
-// import { categoryItem } from "../../../Common/common";
+import Router from "next/router";
+import styles from "../../../../styles/Pages/ListProject.module.scss";
+import { ProjectItem } from "../../../config/interface";
 
 const cx = classNames.bind(styles);
 const Bg1 = "/images/Project.png";
-// const Calender = require("../../../assets/images/Calendar.png");
-// const Cup = require("../../../assets/images/Cup.png");
-// const Share = require("../../../assets/images/Share.png");
 const title = "Hộp đựng giấy lá chuối - Greenhopcom.com";
 
-export default function ListProject(props: any) {
-  const { page, setPage, listProject, total } = props;
+interface Props {
+  listProject: ProjectItem[];
+  isLoading: boolean;
+  isError: boolean;
+  total: number;
+}
 
-  const totalPages = Math.ceil(total / 6);
+const ListProject: React.FC<Props> = ({
+  listProject,
+  total,
+  isLoading,
+  isError,
+}) => {
+  if (isLoading) return <>Loading...</>;
+  if (isError) return <>Error...</>;
 
   return (
     <div className={cx("list-project-wrap")}>
@@ -32,6 +39,9 @@ export default function ListProject(props: any) {
                   <div
                     style={{ backgroundImage: `url('${project.logo || Bg1}')` }}
                     className={cx("project-bg")}
+                    onClick={() => {
+                      Router.push(`/project-item/${project._id}`);
+                    }}
                   >
                     <div className={cx("img")}>
                       {/* <img src={Cup} alt="Cup" className={cx("cup")} />
@@ -73,9 +83,8 @@ export default function ListProject(props: any) {
           })}
         </div>
       </div>
-      <div className={cx("pagination")}>
-        <Pagination defaultCurrent={page} total={totalPages * 10} />
-      </div>
     </div>
   );
-}
+};
+
+export default ListProject;

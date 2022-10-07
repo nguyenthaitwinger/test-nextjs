@@ -1,62 +1,55 @@
-import React, { useState } from "react";
+import { Pagination } from "antd";
 import classNames from "classnames/bind";
-import styles from "../../styles/Pages/ListProject.module.scss";
-import Search from "../../src/components/Screen/ListProject/Search";
+import { useState } from "react";
 import Filter from "../../src/components/Screen/ListProject/Filter";
-import Tags from "../../src/components/Screen/ListProject/Tags";
 import ListProjectC from "../../src/components/Screen/ListProject/ListProjectC";
-import { InferGetServerSidePropsType } from "next";
-import { getListProject } from "../../src/queries/api/project";
+import Search from "../../src/components/Screen/ListProject/Search";
+import Tags from "../../src/components/Screen/ListProject/Tags";
+import { QueryProjet } from "../../src/queries/hooks/project";
+import styles from "../../styles/Pages/ListProject.module.scss";
 
 const cx = classNames.bind(styles);
 
-const ListProject = (
-  props: InferGetServerSidePropsType<typeof getServerSideProps>
-) => {
+const ListProject = () => {
   const [page, setPage] = useState(1);
   const [s, setS] = useState("");
   const [orderBy, setOrderBy] = useState("createdAt");
 
   const [filter, setFilter] = useState({});
 
+  const {
+    data: listProject,
+    isError,
+    isLoading,
+  } = QueryProjet({ page, s, orderBy, ...filter });
+  // const { mutate: filterMutate } = QueryFilterProject();
+
   return (
     <div className={cx("home-wrapper")}>
       <div className={cx("heading")}>Project</div>
-      <Search />
+      <Search setS={setS} />
       <Filter filters={filter} setSort={setOrderBy} setFilter={setFilter} />
 
-      <button
-        onClick={() => {
-          setPage((pre) => pre + 1);
-        }}
-      >
-        a
-      </button>
-
       <div className={cx("content")}>
-        <Tags />
+        <Tags filter={filter} setFilter={setFilter} />
         <ListProjectC
-          listProject={props.data?.data}
-          total={props.data?.total}
+          listProject={listProject?.data}
+          total={listProject?.total}
+          isLoading={isLoading}
+          isError={isError}
         />
+        <div className={cx("pagination")}>
+          <Pagination
+            onChange={(page) => {
+              setPage(page);
+            }}
+            defaultCurrent={page}
+            total={Math.ceil(listProject?.total / 6) * 10}
+          />
+        </div>
       </div>
     </div>
   );
 };
 
 export default ListProject;
-
-export async function getServerSideProps(context: any) {
-  try {
-    const data = await getListProject();
-    return {
-      props: {
-        data: data,
-      },
-    };
-  } catch (e) {
-    return {
-      notFound: true,
-    };
-  }
-}
